@@ -236,24 +236,39 @@ button:hover {
 /* ================================================= */
 /* 📱 AJUSTES PARA TELAS MENORES (Responsividade) */
 /* ================================================= */
-@media (max-width: 768px) {
-    .dia {
-        font-size: 3vw;
-        padding: 5px;
-        min-height: 60px;
-    }
-    .titulo { font-size: 6vw; }
-    button { font-size: 3vw; padding: 6px 10px; }
-    .calendario { max-width: 95%; }
-    .feriado, .feriado-estadual, .aniversario { font-size: 0.7em; }
-    .legenda-item { margin: 3px 5px; font-size: 0.8em; }
-    .legenda { justify-content: space-around; }
-}
+@media (max-width: 600px) {
 
-@media (max-width: 480px) {
-    .dia { font-size: 4vw; min-height: 50px; }
-    .titulo { font-size: 7vw; }
-    button { font-size: 4vw; padding: 4px 8px; }
+    .calendario {
+        grid-template-columns: repeat(7, 120px);
+    }
+
+    .dia {
+        font-size: 0.75rem;
+        min-height: 65px;
+        padding: 4px;
+    }
+
+    .dia-numero {
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+
+    .feriado,
+    .feriado-estadual,
+    .aniversario {
+        font-size: 0.65rem;
+        padding: 2px;
+    }
+
+    button {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+    }
+
+    .titulo {
+        font-size: 1.4rem;
+        padding: 12px 0;
+    }
 }
 </style>
 </head>
