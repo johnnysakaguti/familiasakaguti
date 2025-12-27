@@ -56,20 +56,30 @@ button:hover {
 /* ================================================= */
 .calendario {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 2px; /* Reduzido o gap para melhor aproveitamento de espaço */
+    grid-template-columns: repeat(7, minmax(120px, 1fr));
+    gap: 2px;
     width: 100%;
-    max-width: 900px; /* Limite a largura para melhor visualização em telas grandes */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
+    max-width: 100%;
+    overflow-x: auto;          /* <<< ESSENCIAL */
+    -webkit-overflow-scrolling: touch;
+}
+
+.calendario::after {
+    content: "← deslize →";
+    position: sticky;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.65rem;
+    color: #666;
+    padding: 4px 0;
+    background: #f4f4f9;
 }
 
 .dia {
     border: 1px solid #eee;
     padding: 8px; /* Ajustado o padding */
     text-align: center;
-    font-size: 1.2vw;
+    font-size: 0.85rem;        /* substitui vw */
     background-color: #fff;
     transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
     min-height: 80px; /* Altura mínima para melhor visualização dos eventos */
@@ -89,9 +99,10 @@ button:hover {
 .header {
     font-weight: bold;
     background: linear-gradient(135deg, #e9ecef, #dee2e6);
-    padding: 10px 8px;
+    font-size: 0.75rem;
+    padding: 6px 4px;
+    white-space: nowrap;
 }
-
 .sabado { background: linear-gradient(135deg, #f0f8ff, #e0f7fa); }
 .domingo { background: linear-gradient(135deg, #fff0f0, #ffebee); }
 
