@@ -1,132 +1,326 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calendário Familiar</title>
-
+<title>Família Eikiti Sakaguti - Calendário e Genealogia</title>
 <style>
-* { box-sizing: border-box; }
-
+/* ================================================= */
+/* 🎨 ESTILOS GERAIS */
+/* ================================================= */
 body {
-    margin: 0;
     font-family: Arial, sans-serif;
-    background: #f4f4f9;
-    overflow-x: hidden;
-}
-
-/* ================================================= */
-/* CONTROLES */
-/* ================================================= */
-.botoes {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    padding: 10px;
-}
-
-button {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 6px;
-    background: #1a73e8;
-    color: white;
-    font-size: 0.85rem;
-    cursor: pointer;
-}
-
-/* ================================================= */
-/* TÍTULO */
-/* ================================================= */
-.titulo {
-    text-align: center;
-    padding: 10px;
-    background: #202124;
-    color: white;
-    font-size: 1.2rem;
-}
-
-/* ================================================= */
-/* CALENDÁRIO */
-/* ================================================= */
-.calendario-wrapper {
-    position: relative;
-    overflow: hidden;
-}
-
-.calendario {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    width: 100vw;
-    gap: 1px;
-    background: #dadce0;
-    touch-action: pan-y;
-}
-
-/* Cabeçalho */
-.header {
-    background: #f1f3f4;
-    text-align: center;
-    padding: 6px 2px;
-    font-size: 0.7rem;
-    font-weight: bold;
-}
-
-/* Dia */
-.dia {
-    background: white;
-    min-height: 9vh;
-    padding: 4px;
+    margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 0.75rem;
+    min-height: 100vh;
+    background-color: #f4f4f9; /* Fundo suave */
 }
 
-/* Hoje */
+.titulo {
+    background: linear-gradient(135deg, #555555, #333333);
+    color: white;
+    width: 100%;
+    text-align: center;
+    margin: 20px 0;
+    padding: 20px 0;
+    font-size: 2vw;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.botoes {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+button {
+    margin: 0 5px;
+    padding: 10px 15px;
+    font-size: 1.5vw;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* ================================================= */
+/* 📅 ESTILOS DO CALENDÁRIO */
+/* ================================================= */
+.calendario {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px; /* Reduzido o gap para melhor aproveitamento de espaço */
+    width: 100%;
+    max-width: 900px; /* Limite a largura para melhor visualização em telas grandes */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.dia {
+    border: 1px solid #eee;
+    padding: 8px; /* Ajustado o padding */
+    text-align: center;
+    font-size: 1.2vw;
+    background-color: #fff;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    min-height: 80px; /* Altura mínima para melhor visualização dos eventos */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.dia:hover {
+    border-color: #333;
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10; /* Garante que o hover fique por cima */
+}
+
+.header {
+    font-weight: bold;
+    background: linear-gradient(135deg, #e9ecef, #dee2e6);
+    padding: 10px 8px;
+}
+
+.sabado { background: linear-gradient(135deg, #f0f8ff, #e0f7fa); }
+.domingo { background: linear-gradient(135deg, #fff0f0, #ffebee); }
+
+.feriado, .feriado-estadual, .aniversario {
+    width: 100%;
+    padding: 2px 0;
+    margin-top: 2px;
+    border-radius: 3px;
+    font-size: 0.8em;
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+/* Cores de Feriados */
+.feriado { background: linear-gradient(135deg, #ffecb3, #ffd700); color: #333; }
+.feriado-estadual { background: linear-gradient(135deg, #c8e6c9, #81c784); color: #333; }
+
+/* Cores de Aniversariantes */
+.aniversariante-2ger { background: linear-gradient(135deg, #b3e5fc, #03a9f4); color: white; } /* Filho(a) */
+.aniversariante-3ger { background: linear-gradient(135deg, #80cbc4, #009688); color: white; } /* Neto(a) */
+.aniversariante-4ger { background: linear-gradient(135deg, #a5d6a7, #4caf50); color: white; } /* Bisneto(a) */
+.aniversariante-outro { background: linear-gradient(135deg, #d1c4e9, #673ab7); color: white; } /* Outro */
+
 .hoje {
-    border: 2px solid #1a73e8;
+    box-shadow: 0 0 0 3px red inset; /* Borda vermelha para o dia de hoje */
+    transform: scale(1.02);
+    font-weight: bold;
+    color: red;
+}
+
+.hoje .dia-numero {
+    font-size: 1.2em; /* Destaca o número do dia de hoje */
+}
+
+.tooltip { position: relative; display: block; width: 100%; }
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 20; /* Garante que o tooltip fique por cima */
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.9em;
+}
+
+.tooltip:hover .tooltiptext { visibility: visible; opacity: 1; }
+
+/* ================================================= */
+/* 💡 ESTILOS DA LEGENDA */
+/* ================================================= */
+.legenda {
+    display: flex;
+    flex-wrap: wrap; /* Permite que a legenda se ajuste em telas menores */
+    justify-content: center;
+    margin-top: 10px;
+    padding: 5px 0;
+    max-width: 900px;
+}
+.legenda-item {
+    display: flex;
+    align-items: center;
+    margin: 5px 10px;
+    font-size: 0.9em;
+}
+.legenda-cor {
+    width: 15px;
+    height: 15px;
+    border: 1px solid #ccc;
+    margin-right: 5px;
+    border-radius: 3px;
 }
 
 /* ================================================= */
-/* ANIMAÇÕES (Material Motion inspired) */
+/* 🌲 ESTILOS DA ÁRVORE GENEALÓGICA */
 /* ================================================= */
+#genealogyTree {
+    list-style-type: none;
+    padding-left: 0;
+    text-align: left;
+    max-width: 600px;
+    width: 90%;
+    margin: 20px auto;
+}
+
+#genealogyTree ul {
+    list-style-type: none;
+    padding-left: 20px;
+    border-left: 1px dashed #ccc;
+}
+
+#genealogyTree li {
+    cursor: pointer;
+    margin: 8px 0;
+    padding-left: 20px;
+    position: relative;
+    font-size: 1.1em;
+    line-height: 1.4;
+}
+
+#genealogyTree li::before {
+    content: '\25B6'; /* Triângulo para indicar expandir */
+    position: absolute;
+    left: 0;
+    top: 3px;
+    font-size: 0.8em;
+    color: #007bff;
+    transition: transform 0.3s;
+}
+
+#genealogyTree li.expanded::before {
+    content: '\25BC'; /* Triângulo para indicar recolher */
+}
+
+#genealogyTree li:not(.has-children)::before {
+    content: '\2022'; /* Ponto para quem não tem filhos listados */
+    color: #555;
+    font-size: 1.2em;
+    top: 0;
+}
+
+.hidden { display: none; }
+
+/* ================================================= */
+/* 📱 AJUSTES PARA TELAS MENORES (Responsividade) */
+/* ================================================= */
+@media (max-width: 768px) {
+    .dia {
+        font-size: 3vw;
+        padding: 5px;
+        min-height: 60px;
+    }
+    .titulo { font-size: 6vw; }
+    button { font-size: 3vw; padding: 6px 10px; }
+    .calendario { max-width: 95%; }
+    .feriado, .feriado-estadual, .aniversario { font-size: 0.7em; }
+    .legenda-item { margin: 3px 5px; font-size: 0.8em; }
+    .legenda { justify-content: space-around; }
+}
+
+@media (max-width: 480px) {
+    .dia { font-size: 4vw; min-height: 50px; }
+    .titulo { font-size: 7vw; }
+    button { font-size: 4vw; padding: 4px 8px; }
+}
+/* ================================================= */
+/* ✨ ANIMAÇÕES (Material Motion) */
+/* ================================================= */
+.calendario-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
 .slide-left {
-    animation: slideLeft 260ms cubic-bezier(0.4, 0.0, 0.2, 1);
+    animation: slideLeft 280ms cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
 .slide-right {
-    animation: slideRight 260ms cubic-bezier(0.4, 0.0, 0.2, 1);
+    animation: slideRight 280ms cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
 @keyframes slideLeft {
-    from { transform: translateX(100%); opacity: 0.8; }
-    to   { transform: translateX(0); opacity: 1; }
+    from {
+        transform: translateX(100%);
+        opacity: 0.7;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
 @keyframes slideRight {
-    from { transform: translateX(-100%); opacity: 0.8; }
-    to   { transform: translateX(0); opacity: 1; }
+    from {
+        transform: translateX(-100%);
+        opacity: 0.7;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+/* Permite swipe horizontal sem quebrar scroll vertical */
+.calendario {
+    touch-action: pan-y;
 }
 </style>
 </head>
-
 <body>
-
-<div class="botoes">
-    <button id="prev">◀</button>
-    <button id="today">Hoje</button>
-    <button id="next">▶</button>
-</div>
-
-<div class="titulo" id="titulo"></div>
-
+    <div class="botoes">
+        <button id="mesAnterior">Mês Anterior</button>
+        <button id="mesAtual">Mês Atual</button>
+        <button id="proximoMes">Próximo Mês</button>
+    </div>
+    <div class="titulo" id="titulo"></div>
 <div class="calendario-wrapper">
-    <div class="calendario" id="calendario"></div>
+    <div id="calendario" class="calendario"></div>
 </div>
 
-<script>
+    <div class="legenda-container">
+        <div id="legenda-aniversarios" class="legenda">
+            <div class="legenda-item"><div class="legenda-cor aniversariante-2ger"></div>Filho(a)</div>
+            <div class="legenda-item"><div class="legenda-cor aniversariante-3ger"></div>Neto(a)</div>
+            <div class="legenda-item"><div class="legenda-cor aniversariante-4ger"></div>Bisneto(a)</div>
+            <div class="legenda-item"><div class="legenda-cor aniversariante-outro"></div>Outro</div>
+        </div>
+        <div id="legenda-feriados" class="legenda">
+            <div class="legenda-item"><div class="legenda-cor feriado"></div>Feriado Nacional</div>
+            <div class="legenda-item"><div class="legenda-cor feriado-estadual"></div>Feriado Estadual (MS)</div>
+            <div class="legenda-item"><div class="legenda-cor sabado"></div>Sábado</div>
+            <div class="legenda-item"><div class="legenda-cor domingo"></div>Domingo</div>
+        </div>
+    </div>
+    
+    <div class="titulo" id="Titulo_arvore">Árvore Genealógica (Clique para Expandir)</div>
+    
+    <ul class="tree" id="genealogyTree"></ul>
 
+    <script>
         // =================================================
         // 💾 DADOS (Aniversariantes e Feriados)
         // =================================================
@@ -334,104 +528,248 @@ button {
         // =================================================
         // 🗓️ FUNÇÕES DO CALENDÁRIO
         // =================================================
-    
-let hoje = new Date();
-let mes = hoje.getMonth();
-let ano = hoje.getFullYear();
+        
+        let dataAtual = new Date();
+        let mesAtual = dataAtual.getMonth();
+        let anoAtual = dataAtual.getFullYear();
+        const hoje = new Date();
+        const hojeData = `${String(hoje.getDate()).padStart(2, '0')}-${String(hoje.getMonth() + 1).padStart(2, '0')}-${hoje.getFullYear()}`;
 
-/* ================================================= */
-/* UTIL */
-/* ================================================= */
-function atualizarTitulo() {
-    const meses = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho",
-                   "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
-    titulo.innerText = `${meses[mes]} de ${ano}`;
-}
+        /**
+         * Atualiza o título do calendário.
+         */
+        function atualizarTitulo() {
+            const meses = [
+                "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+                "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+            ];
+            document.getElementById('titulo').innerText = `${meses[mesAtual]} de ${anoAtual}`;
+        }
 
-/* ================================================= */
-/* CALENDÁRIO */
-/* ================================================= */
-function criarCalendario(animacao = null) {
-    calendario.innerHTML = "";
-    calendario.classList.remove("slide-left","slide-right");
-    if (animacao) calendario.classList.add(animacao);
+        /**
+         * Cria e preenche o calendário.
+         * @param {number} mes - Mês (0-11).
+         * @param {number} ano - Ano.
+         */
+        function criarCalendario(mes, ano, animacao = null) {
+            const calendario = document.getElementById('calendario');
 
-    ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"].forEach(d => {
-        const h = document.createElement("div");
-        h.className = "header";
-        h.innerText = d;
-        calendario.appendChild(h);
+            calendario.classList.remove('slide-left', 'slide-right');
+            if (animacao) {
+                calendario.classList.add(animacao);
+            }
+
+            const feriadosMoveis = calcularFeriadosMoveis(ano);
+            const feriadosNacionais = { ...feriadosFixos, ...feriadosMoveis };
+
+            const diasDoMes = new Date(ano, mes + 1, 0).getDate();
+            let primeiroDia = new Date(ano, mes, 1).getDay(); // 0=Dom, 1=Seg...
+
+            calendario.innerHTML = '';
+
+            const diasDaSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+            diasDaSemana.forEach(dia => {
+                const div = document.createElement('div');
+                div.className = 'dia header';
+                div.innerText = dia;
+                calendario.appendChild(div);
+            });
+
+            // Preenche os espaços vazios do início do mês
+            for (let i = 0; i < primeiroDia; i++) {
+                calendario.appendChild(document.createElement('div'));
+            }
+
+            const mesAtualFormatado = String(mes + 1).padStart(2, '0');
+
+            for (let dia = 1; dia <= diasDoMes; dia++) {
+                const dataChave = `${String(dia).padStart(2, '0')}-${mesAtualFormatado}`;
+                const div = document.createElement('div');
+                div.className = 'dia';
+
+                if (primeiroDia === 0) div.classList.add('domingo');
+                else if (primeiroDia === 6) div.classList.add('sabado');
+
+                // Adiciona o número do dia
+                const diaNumero = document.createElement('div');
+                diaNumero.className = 'dia-numero';
+                diaNumero.innerText = dia;
+                div.appendChild(diaNumero);
+
+                const ehHoje = dia === hoje.getDate() && mes === hoje.getMonth() && ano === hoje.getFullYear();
+                if (ehHoje) div.classList.add('hoje');
+
+                // Feriados Estaduais
+                if (feriadosEstaduais[dataChave]) {
+                    const divFeriado = criarElementoEvento('feriado-estadual', feriadosEstaduais[dataChave]);
+                    div.appendChild(divFeriado);
+                }
+
+                // Feriados Nacionais
+                if (feriadosNacionais[dataChave]) {
+                    const divFeriado = criarElementoEvento('feriado', feriadosNacionais[dataChave]);
+                    div.appendChild(divFeriado);
+                }
+                
+                // Aniversariantes
+                if (aniversariantesPorData[dataChave]) {
+                    aniversariantesPorData[dataChave].forEach(pessoa => {
+                        const idade = calcularIdade(pessoa.a, ano);
+                        const classeParentesco = `aniversariante-${pessoa.p}ger`;
+                        const divAniversario = criarElementoEvento(classeParentesco, pessoa.nomeAbreviado, idade);
+                        div.appendChild(divAniversario);
+                    });
+                }
+
+                calendario.appendChild(div);
+                primeiroDia = (primeiroDia + 1) % 7;
+            }
+        }
+
+        /**
+         * Cria um elemento de evento (feriado ou aniversário) com tooltip.
+         * @param {string} classe - Classe CSS para cor.
+         * @param {string} texto - Texto principal (nome ou feriado).
+         * @param {string} [tooltipText] - Texto do tooltip (idade).
+         * @returns {HTMLElement} O elemento div do evento.
+         */
+        function criarElementoEvento(classe, texto, tooltipText) {
+            const div = document.createElement('div');
+            div.classList.add('tooltip', classe);
+            div.innerHTML = texto;
+            
+            if (tooltipText) {
+                const span = document.createElement('span');
+                span.classList.add('tooltiptext');
+                span.textContent = tooltipText;
+                div.appendChild(span);
+            }
+            return div;
+        }
+
+// =================================================
+// 🌲 FUNÇÕES DA ÁRVORE GENEALÓGICA
+// =================================================
+
+/**
+ * Cria a estrutura de lista aninhada da árvore genealógica.
+ * @param {string} ancestral - O nome completo do ancestral para filtrar.
+ * @returns {HTMLUListElement} A sub-árvore.
+ */
+function criarArvore(ancestral = "Sakaguti") {
+    const arvore = document.createElement("ul");
+    // Obtém o ano atual para calcular a idade
+    const anoCorrente = new Date().getFullYear(); 
+
+    // Filtra e ordena pelo ano de nascimento
+    const filhos = dadosAniversariantes
+        .filter(p => p.ascendente === ancestral)
+        .sort((a, b) => a.a - b.a);
+
+    filhos.forEach(pessoa => {
+        const item = document.createElement("li");
+        
+        // **Cálculo e Exibição da Idade Atualizada**
+        let textoIdade = '';
+        if (pessoa.a > 0) { // Se o ano for válido
+            const idade = anoCorrente - pessoa.a;
+            textoIdade = ` (${pessoa.a}, ${idade} anos)`;
+        } else {
+            // Caso especial para datas '00-00-0000'
+            textoIdade = ' (Data Desconhecida)';
+        }
+        
+        item.textContent = `${pessoa.nomeCompleto}${textoIdade}`;
+        // Fim da modificação para inclusão da idade
+
+        // Verifica se a pessoa tem filhos listados para definir o ícone
+        const temFilhos = dadosAniversariantes.some(p => p.ascendente === pessoa.nomeCompleto);
+
+        if (temFilhos) {
+            item.classList.add("has-children");
+            item.onclick = function(event) {
+                event.stopPropagation();
+                let subArvore = item.querySelector("ul");
+                if (subArvore) {
+                    subArvore.remove();
+                    item.classList.remove("expanded");
+                } else {
+                    subArvore = criarArvore(pessoa.nomeCompleto);
+                    if (subArvore.children.length > 0) {
+                        item.appendChild(subArvore);
+                        item.classList.add("expanded");
+                    }
+                }
+            };
+        }
+        arvore.appendChild(item);
     });
+    return arvore;
+}
 
-    const primeiro = new Date(ano, mes, 1).getDay();
-    const total = new Date(ano, mes+1, 0).getDate();
+// =================================================
+// 🖱️ LISTENERS DE EVENTOS (MANTENHA ESTA SEÇÃO IGUAL)
+// =================================================
 
-    for (let i=0;i<primeiro;i++) calendario.appendChild(document.createElement("div"));
-
-    for (let d=1; d<=total; d++) {
-        const dia = document.createElement("div");
-        dia.className = "dia";
-
-        if (
-            d === hoje.getDate() &&
-            mes === hoje.getMonth() &&
-            ano === hoje.getFullYear()
-        ) dia.classList.add("hoje");
-
-        dia.innerHTML = `<strong>${d}</strong>`;
-        calendario.appendChild(dia);
-    }
-
+document.getElementById('mesAnterior').addEventListener('click', () => {
+    mesAtual--;
+    if (mesAtual < 0) { mesAtual = 11; anoAtual--; }
     atualizarTitulo();
-}
+    criarCalendario(mesAtual, anoAtual, 'slide-right');
+});
 
-/* ================================================= */
-/* NAVEGAÇÃO */
-/* ================================================= */
-function proximoMes(anim=true) {
-    mes++;
-    if (mes > 11) { mes = 0; ano++; }
-    criarCalendario(anim ? "slide-left" : null);
-}
+document.getElementById('mesAtual').addEventListener('click', () => {
+    mesAtual = hoje.getMonth();
+    anoAtual = hoje.getFullYear();
+    atualizarTitulo();
+    criarCalendario(mesAtual, anoAtual);
+});
 
-function mesAnterior(anim=true) {
-    mes--;
-    if (mes < 0) { mes = 11; ano--; }
-    criarCalendario(anim ? "slide-right" : null);
-}
+document.getElementById('proximoMes').addEventListener('click', () => {
+    mesAtual++;
+    if (mesAtual > 11) { mesAtual = 0; anoAtual++; }
+    atualizarTitulo();
+    criarCalendario(mesAtual, anoAtual, 'slide-left');
+});
 
-/* BOTÕES */
-prev.onclick = () => mesAnterior();
-next.onclick = () => proximoMes();
-today.onclick = () => {
-    mes = hoje.getMonth();
-    ano = hoje.getFullYear();
-    criarCalendario();
-};
-
-/* ================================================= */
-/* SWIPE */
-/* ================================================= */
+// Inicialização
+document.addEventListener('DOMContentLoaded', () => {
+    atualizarTitulo();
+    criarCalendario(mesAtual, anoAtual);
+    // Cria a árvore com a idade atualizada
+    document.getElementById("genealogyTree").appendChild(criarArvore());
+});
+// =================================================
+// 👉 SWIPE HORIZONTAL (Touch / Trackpad)
+// =================================================
 let startX = 0;
 
-calendario.addEventListener("pointerdown", e => {
+const calendarioEl = document.getElementById('calendario');
+
+calendarioEl.addEventListener('pointerdown', e => {
     startX = e.clientX;
 });
 
-calendario.addEventListener("pointerup", e => {
+calendarioEl.addEventListener('pointerup', e => {
     const deltaX = e.clientX - startX;
+
     if (Math.abs(deltaX) > 60) {
-        deltaX < 0 ? proximoMes() : mesAnterior();
+        if (deltaX < 0) {
+            // Swipe para esquerda → próximo mês
+            mesAtual++;
+            if (mesAtual > 11) { mesAtual = 0; anoAtual++; }
+            atualizarTitulo();
+            criarCalendario(mesAtual, anoAtual, 'slide-left');
+        } else {
+            // Swipe para direita → mês anterior
+            mesAtual--;
+            if (mesAtual < 0) { mesAtual = 11; anoAtual--; }
+            atualizarTitulo();
+            criarCalendario(mesAtual, anoAtual, 'slide-right');
+        }
     }
 });
 
-/* ORIENTAÇÃO / RESIZE */
-window.addEventListener("resize", () => criarCalendario());
-window.addEventListener("orientationchange", () => criarCalendario());
-
-/* INIT */
-criarCalendario();
 </script>
-
 </body>
 </html>
