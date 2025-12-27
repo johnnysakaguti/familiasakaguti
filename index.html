@@ -126,6 +126,215 @@ button {
 </div>
 
 <script>
+
+        // =================================================
+        // 💾 DADOS (Aniversariantes e Feriados)
+        // =================================================
+
+        // Estrutura de dados aprimorada
+        const dadosAniversariantes = [
+            // Geração 1 (Ancestral Principal)
+            { d: '29-03', a: 1913, nomeCompleto: 'Eikiti Sakaguti', nomeAbreviado: 'Eikiti', p: '1', ascendente: 'Sakaguti' },
+
+            // Geração 2 (Filhos)
+            { d: '24-06', a: 1938, nomeCompleto: 'Emiko Sakaguti Kawamoto', nomeAbreviado: 'Emiko', p: '2', ascendente: 'Eikiti Sakaguti' },
+            { d: '30-09', a: 1939, nomeCompleto: 'Celso Eiiti Sakaguti', nomeAbreviado: 'Celso', p: '2', ascendente: 'Eikiti Sakaguti' },
+            { d: '17-09', a: 1941, nomeCompleto: 'Hélio Itiro Sakaguti', nomeAbreviado: 'Hélio', p: '2', ascendente: 'Eikiti Sakaguti' },
+            { d: '20-10', a: 1943, nomeCompleto: 'Paulo Hideioshi Sakaguti', nomeAbreviado: 'Paulo', p: '2', ascendente: 'Eikiti Sakaguti' },
+            { d: '01-06', a: 1945, nomeCompleto: 'Francisco Kishiro Sakaguti', nomeAbreviado: 'Francisco', p: '2', ascendente: 'Eikiti Sakaguti' },
+            { d: '05-05', a: 1947, nomeCompleto: 'Rosa Teruko Sakaguti Tanamati', nomeAbreviado: 'Rosa', p: '2', ascendente: 'Eikiti Sakaguti' },
+            { d: '10-04', a: 1949, nomeCompleto: 'Joaquim Sakaguti', nomeAbreviado: 'Juca', p: '2', ascendente: 'Eikiti Sakaguti' },
+            { d: '29-11', a: 1951, nomeCompleto: 'Lusia Mitiko Nishimura', nomeAbreviado: 'Mitiko', p: '2', ascendente: 'Eikiti Sakaguti' },
+            { d: '19-11', a: 1954, nomeCompleto: 'Mario Sakaguti', nomeAbreviado: 'Mário', p: '2', ascendente: 'Eikiti Sakaguti' },
+            
+            // Geração 3 (Netos) - Agrupados por ascendente
+            // Filhos da Emiko
+            { d: '26-08', a: 1960, nomeCompleto: 'Ercilia Tiemi Kawamoto', nomeAbreviado: 'Tiemi', p: '3', ascendente: 'Emiko Sakaguti Kawamoto' },
+            { d: '25-10', a: 1962, nomeCompleto: 'Alice Mitsue Sakaguti Kawamoto Ishioka', nomeAbreviado: 'Alice', p: '3', ascendente: 'Emiko Sakaguti Kawamoto' },
+            { d: '21-05', a: 1964, nomeCompleto: 'Henrique Yasuo Kawamoto', nomeAbreviado: 'Yasuo', p: '3', ascendente: 'Emiko Sakaguti Kawamoto' },
+            { d: '05-05', a: 1966, nomeCompleto: 'Moacir Kawamoto', nomeAbreviado: 'Moacir', p: '3', ascendente: 'Emiko Sakaguti Kawamoto' },
+            { d: '10-11', a: 1971, nomeCompleto: 'Mauro Kawamoto', nomeAbreviado: 'Mauro', p: '3', ascendente: 'Emiko Sakaguti Kawamoto' },
+
+            // Filhos do Celso
+            { d: '14-04', a: 1966, nomeCompleto: 'Roberto Eiji Sakaguti', nomeAbreviado: 'Beto', p: '3', ascendente: 'Celso Eiiti Sakaguti' },
+            { d: '22-02', a: 1968, nomeCompleto: 'Eduardo Shiguero Sakaguti', nomeAbreviado: 'Eduardo', p: '3', ascendente: 'Celso Eiiti Sakaguti' },
+            { d: '03-07', a: 1974, nomeCompleto: 'Edy Emerson Sakaguti', nomeAbreviado: 'Edy', p: '3', ascendente: 'Celso Eiiti Sakaguti' },
+
+            // Filhos do Hélio
+            { d: '06-02', a: 1976, nomeCompleto: 'Décio Setsuo Sakaguti', nomeAbreviado: 'Décio', p: '3', ascendente: 'Hélio Itiro Sakaguti' },
+            { d: '15-02', a: 1978, nomeCompleto: 'Ligia Tizue Sakaguti Rolim', nomeAbreviado: 'Ligia', p: '3', ascendente: 'Hélio Itiro Sakaguti' },
+            { d: '31-07', a: 1981, nomeCompleto: 'Cintia Emi Sakaguti', nomeAbreviado: 'Cintia', p: '3', ascendente: 'Hélio Itiro Sakaguti' },
+
+            // Filhos do Paulo
+            { d: '30-08', a: 1972, nomeCompleto: 'Solange Tieko Sakaguti', nomeAbreviado: 'Solange', p: '3', ascendente: 'Paulo Hideioshi Sakaguti' },
+            { d: '20-03', a: 1977, nomeCompleto: 'Paulo Hideioshi Sakaguti Filho', nomeAbreviado: 'Paulinho', p: '3', ascendente: 'Paulo Hideioshi Sakaguti' },
+
+            // Filhos do Francisco
+            { d: '22-09', a: 1980, nomeCompleto: 'Frank Villasanti Sakaguti', nomeAbreviado: 'Frank', p: '3', ascendente: 'Francisco Kishiro Sakaguti' },
+            { d: '15-12', a: 1981, nomeCompleto: 'Johnny Villasanti Sakaguti', nomeAbreviado: 'Johnny', p: '3', ascendente: 'Francisco Kishiro Sakaguti' },
+            { d: '23-12', a: 1983, nomeCompleto: 'Jonathan Villasanti Sakaguti', nomeAbreviado: 'Jonathan', p: '3', ascendente: 'Francisco Kishiro Sakaguti' },
+
+            // Filhos da Rosa
+            { d: '01-05', a: 1972, nomeCompleto: 'Carla Akemi Sakaguti Tanamati', nomeAbreviado: 'Carla', p: '3', ascendente: 'Rosa Teruko Sakaguti Tanamati' },
+            { d: '10-10', a: 1974, nomeCompleto: 'Katia Mieko Sakaguti Tanamati', nomeAbreviado: 'Katia', p: '3', ascendente: 'Rosa Teruko Sakaguti Tanamati' },
+            { d: '30-03', a: 1976, nomeCompleto: 'Cleide Yuri Sakaguti Tanamati', nomeAbreviado: 'Dinha', p: '3', ascendente: 'Rosa Teruko Sakaguti Tanamati' },
+
+            // Filhos da Lusia
+            { d: '02-10', a: 1980, nomeCompleto: 'Celio Ricardo Satoshi Nishimura', nomeAbreviado: 'Celio', p: '3', ascendente: 'Lusia Mitiko Nishimura' },
+            { d: '15-06', a: 1979, nomeCompleto: 'Leila Shisue Nishimura', nomeAbreviado: 'Leila', p: '3', ascendente: 'Lusia Mitiko Nishimura' },
+            { d: '27-12', a: 1982, nomeCompleto: 'Suzana Kazue Nishimura', nomeAbreviado: 'Suzana', p: '3', ascendente: 'Lusia Mitiko Nishimura' },
+
+            // Filhos do Mario
+            { d: '15-08', a: 1985, nomeCompleto: 'Ricardo Minami Sakaguti', nomeAbreviado: 'Ricardo', p: '3', ascendente: 'Mario Sakaguti' },
+            { d: '13-02', a: 1988, nomeCompleto: 'Fabricio Minami Sakaguti', nomeAbreviado: 'Fabricio', p: '3', ascendente: 'Mario Sakaguti' },
+            { d: '04-06', a: 1989, nomeCompleto: 'Aline Minami Sakaguti', nomeAbreviado: 'Aline', p: '3', ascendente: 'Mario Sakaguti' },
+
+            // Geração 4 (Bisnetos) - Adicionar mais para ter uma árvore mais rica
+            // Bisnetos da Emiko
+            { d: '23-03', a: 1986, nomeCompleto: 'Gladyson Sadao Ishioka', nomeAbreviado: 'Gladyson', p: '4', ascendente: 'Alice Mitsue Sakaguti Kawamoto Ishioka' },
+            { d: '20-01', a: 1991, nomeCompleto: 'Allyson Yugo Ishioka', nomeAbreviado: 'Allyson', p: '4', ascendente: 'Alice Mitsue Sakaguti Kawamoto Ishioka' },
+            { d: '01-11', a: 1990, nomeCompleto: 'Thayane Yumi Santos Kawamoto', nomeAbreviado: 'Yumi', p: '4', ascendente: 'Henrique Yasuo Kawamoto' },
+            { d: '18-12', a: 1999, nomeCompleto: 'Giuliana Yuri Mendes Kawamoto', nomeAbreviado: 'Giuliana', p: '4', ascendente: 'Henrique Yasuo Kawamoto' },
+            { d: '17-05', a: 1993, nomeCompleto: 'Vinicius Henrique Akyo Kawamoto', nomeAbreviado: 'Vinicius', p: '4', ascendente: 'Henrique Yasuo Kawamoto' },
+            { d: '19-10', a: 1992, nomeCompleto: 'Maisa Sayuri Okada Kawamoto', nomeAbreviado: 'Maisa', p: '4', ascendente: 'Moacir Kawamoto' },
+            { d: '25-12', a: 1999, nomeCompleto: 'Karine Kawamoto', nomeAbreviado: 'Karine', p: '4', ascendente: 'Moacir Kawamoto' },
+            { d: '00-00', a: 0000, nomeCompleto: 'Luisa Andrade Kawamoto', nomeAbreviado: 'Luisa', p: '4', ascendente: 'Mauro Kawamoto' },
+
+            // Bisnetos do Celso
+            { d: '03-05', a: 2005, nomeCompleto: 'Camila Yamazato Sakaguti', nomeAbreviado: 'Camila', p: '4', ascendente: 'Roberto Eiji Sakaguti' },
+
+            // Bisnetos do Hélio
+            { d: '21-08', a: 2013, nomeCompleto: 'Elena', nomeAbreviado: 'Elena', p: '4', ascendente: 'Décio Setsuo Sakaguti' },
+            { d: '21-02', a: 2017, nomeCompleto: 'Enrique', nomeAbreviado: 'Enrique', p: '4', ascendente: 'Décio Setsuo Sakaguti' },
+            { d: '15-06', a: 2009, nomeCompleto: 'Igor', nomeAbreviado: 'Igor', p: '4', ascendente: 'Ligia Tizue Sakaguti Rolim' },
+            { d: '01-06', a: 2016, nomeCompleto: 'Giovana', nomeAbreviado: 'Giovana', p: '4', ascendente: 'Ligia Tizue Sakaguti Rolim' },
+            { d: '15-08', a: 2014, nomeCompleto: 'Gustavo', nomeAbreviado: 'Gustavo', p: '4', ascendente: 'Cintia Emi Sakaguti' },
+            { d: '09-03', a: 2017, nomeCompleto: 'Matheus', nomeAbreviado: 'Matheus', p: '4', ascendente: 'Cintia Emi Sakaguti' },
+            { d: '31-12', a: 2020, nomeCompleto: 'Lucas', nomeAbreviado: 'Lucas', p: '4', ascendente: 'Cintia Emi Sakaguti' },
+
+            // Bisnetos do Paulo
+            { d: '22-07', a: 1993, nomeCompleto: 'Ana Carolina Sakaguti Taube', nomeAbreviado: 'Carol', p: '4', ascendente: 'Solange Tieko Sakaguti' },
+            { d: '04-07', a: 1977, nomeCompleto: 'Vitor Miguita Sakaguti', nomeAbreviado: 'Vitor', p: '4', ascendente: 'Paulo Hideioshi Sakaguti Filho' },
+
+            // Bisnetos do Francisco
+            { d: '24-01', a: 2017, nomeCompleto: 'Maria Fernanda Villasanti Lopez', nomeAbreviado: 'Maria Fernanda', p: '4', ascendente: 'Frank Villasanti Sakaguti' },
+            { d: '01-11', a: 2019, nomeCompleto: 'Joaquim Villasanti Lopez', nomeAbreviado: 'Joaquim', p: '4', ascendente: 'Frank Villasanti Sakaguti' },
+
+            // Bisnetos da Rosa
+            { d: '30-01', a: 1997, nomeCompleto: 'Luis Augusto Tanamati Fernandes', nomeAbreviado: 'Luis Augusto', p: '4', ascendente: 'Carla Akemi Sakaguti Tanamati' },
+            { d: '21-12', a: 2000, nomeCompleto: 'Guilherme Tanamati Fernandes', nomeAbreviado: 'Guilherme', p: '4', ascendente: 'Carla Akemi Sakaguti Tanamati' },
+            { d: '14-11', a: 2008, nomeCompleto: 'Sarah Sumie Tanamati Pedroso', nomeAbreviado: 'Sarah', p: '4', ascendente: 'Katia Mieko Sakaguti Tanamati' },
+            { d: '20-08', a: 2012, nomeCompleto: 'Flavia Yumi Tanamati Pedroso', nomeAbreviado: 'Flavia', p: '4', ascendente: 'Katia Mieko Sakaguti Tanamati' },
+
+            // Bisnetos da Lusia
+            { d: '27-03', a: 2001, nomeCompleto: 'Fernanda Nishimura', nomeAbreviado: 'Fernanda', p: '4', ascendente: 'Celio Ricardo Satoshi Nishimura' },
+            { d: '25-08', a: 2003, nomeCompleto: 'Bruno Nishimura', nomeAbreviado: 'Bruno', p: '4', ascendente: 'Celio Ricardo Satoshi Nishimura' },
+            { d: '10-11', a: 2011, nomeCompleto: 'Rafael Hiroshi Nishimura Cordeiro', nomeAbreviado: 'Rafael', p: '4', ascendente: 'Leila Shisue Nishimura' },
+            { d: '07-05', a: 2014, nomeCompleto: 'Laura Mayumi Nishimura Cordeiro', nomeAbreviado: 'Laura', p: '4', ascendente: 'Leila Shisue Nishimura' },
+            { d: '26-06', a: 2022, nomeCompleto: 'Heitor Nishimura Santos', nomeAbreviado: 'Heitor', p: '4', ascendente: 'Suzana Kazue Nishimura' },
+        ];
+
+        // Mapeia aniversariantes por data
+        const aniversariantesPorData = dadosAniversariantes.reduce((acc, pessoa) => {
+            if (!acc[pessoa.d]) { acc[pessoa.d] = []; }
+            acc[pessoa.d].push(pessoa);
+            return acc;
+        }, {});
+        
+        // Feriados fixos (independentes do ano)
+        const feriadosFixos = {
+            '01-01': 'Ano Novo', '21-04': 'Tiradentes', '01-05': 'Dia do Trabalhador', 
+            '07-09': 'Independência do Brasil', '12-10': 'Nossa Senhora Aparecida', 
+            '02-11': 'Finados', '15-11': 'Proclamação da República', 
+            '20-11': 'Dia Nacional de Zumbi e da Consciência Negra', '25-12': 'Natal',
+        };
+
+        // Feriados estaduais (MS)
+        const feriadosEstaduais = {
+            '11-10': 'Criação do Estado de MS', '28-10': 'Dia do Servidor Público Estadual',
+        };
+
+        // =================================================
+        // ⚙️ FUNÇÕES DE CÁLCULO
+        // =================================================
+        
+        /**
+         * Calcula a data da Páscoa para um dado ano (Algoritmo de Computus Eclesiástico).
+         * @param {number} ano - O ano.
+         * @returns {Date} A data da Páscoa.
+         */
+        function calcularPascoa(ano) {
+            const a = ano % 19; const b = Math.floor(ano / 100); const c = ano % 100;
+            const d = Math.floor(b / 4); const e = b % 4;
+            const f = Math.floor((b + 8) / 25);
+            const g = Math.floor((b - f + 1) / 3);
+            const h = (19 * a + b - d - g + 15) % 30;
+            const i = Math.floor(c / 4); const k = c % 4;
+            const l = (32 + 2 * e + 2 * i - h - k) % 7;
+            const m = Math.floor((a + 11 * h + 22 * l) / 451);
+            const mes = Math.floor((h + l - 7 * m + 114) / 31);
+            const dia = (h + l - 7 * m + 114) % 31 + 1;
+            return new Date(ano, mes - 1, dia); // Meses em JavaScript são baseados em zero
+        }
+
+        /**
+         * Adiciona ou subtrai dias de uma data.
+         * @param {Date} data - A data inicial.
+         * @param {number} dias - O número de dias a adicionar (pode ser negativo).
+         * @returns {Date} A nova data.
+         */
+        function adicionarDias(data, dias) {
+            const novaData = new Date(data);
+            novaData.setDate(novaData.getDate() + dias);
+            return novaData;
+        }
+
+        /**
+         * Formata o dia e mês no formato "dd-mm".
+         * @param {number} dia - O dia.
+         * @param {number} mes - O mês (0-11).
+         * @returns {string} A data formatada.
+         */
+        function formatarData(dia, mes) {
+            return `${String(dia).padStart(2, '0')}-${String(mes + 1).padStart(2, '0')}`;
+        }
+
+        /**
+         * Calcula feriados móveis para o ano.
+         * @param {number} ano - O ano.
+         * @returns {Object.<string, string>} Objeto de feriados móveis.
+         */
+        function calcularFeriadosMoveis(ano) {
+            const dataPascoa = calcularPascoa(ano);
+            const carnaval = adicionarDias(dataPascoa, -47); // 47 dias antes da Páscoa
+            const sextaFeiraSanta = adicionarDias(dataPascoa, -2); // 2 dias antes da Páscoa
+            const corpusChristi = adicionarDias(dataPascoa, 60); // 60 dias após a Páscoa
+
+            const feriadosMoveis = {};
+            feriadosMoveis[formatarData(dataPascoa.getDate(), dataPascoa.getMonth())] = 'Páscoa';
+            feriadosMoveis[formatarData(carnaval.getDate(), carnaval.getMonth())] = 'Carnaval';
+            // feriadosMoveis[formatarData(adicionarDias(carnaval, 1).getDate(), adicionarDias(carnaval, 1).getMonth())] = 'Quarta-feira de Cinzas'; // Não é feriado nacional oficial
+            feriadosMoveis[formatarData(sextaFeiraSanta.getDate(), sextaFeiraSanta.getMonth())] = 'Sexta-feira Santa';
+            feriadosMoveis[formatarData(corpusChristi.getDate(), corpusChristi.getMonth())] = 'Corpus Christi';
+
+            return feriadosMoveis;
+        }
+
+        /**
+         * Calcula a idade.
+         * @param {number} anoNascimento - Ano de nascimento.
+         * @param {number} anoAtual - Ano atual do calendário.
+         * @returns {string} Idade.
+         */
+        function calcularIdade(anoNascimento, anoAtual) {
+            const idade = anoAtual - anoNascimento;
+            return `${idade} anos`;
+        }
+
+        // =================================================
+        // 🗓️ FUNÇÕES DO CALENDÁRIO
+        // =================================================
+    
 let hoje = new Date();
 let mes = hoje.getMonth();
 let ano = hoje.getFullYear();
